@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Página de Produto</title>
+  <!-- <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background: #0a0e27;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    .gallery {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .gallery img {
+      width: 100%;
+      max-width: 250px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .price {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 0.8rem;
+      text-align: left;
+    }
+    .reviews {
+      margin: 2rem 0;
+    }
+    .reviews article {
+      background: #f9f9f9;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+    form {
+      margin-top: 2rem;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    form label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    form input, form select {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      width: 100%;
+      max-width: 200px;
+    }
+    form .radio-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    form button {
+      margin-top: 1.5rem;
+      padding: 0.8rem 1.5rem;
+      background: #0066ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    form button:hover {
+      background: #004bb5;
+    }
+  </style> -->
+</head>
+<body>
+
+  <header>
+    <h1>SmartBike S-Move</h1>
+  </header>
+
+  <main>
+   
+    <div class="gallery">
+        <h2>Galeria de Imagens</h2>
+      <img src="../ASSETS/smartbikeleft.png" alt="SmartBike vista lateral" width="400">
+      <img src="../ASSETS/smartbikefront.png" alt="SmartBike vista frontal" width="200">
+      <img src="../ASSETS/womanriding.png" alt="SmartBike em uso na cidade" width="200">
+      <img src="../ASSETS/smartbikepanel.png" alt="Detalhe do painel da SmartBike" width="400">
+    </div>
+
+   
+    <p class="price">Preço: <strong>R$ 4.999,00</strong></p>
+
+   
+    <section>
+      <h2>Descrição do Produto</h2>
+      <p>A SmartBike S-Move é uma bicicleta elétrica projetada para transformar a mobilidade urbana. Com design moderno e tecnologia avançada, ela oferece praticidade e sustentabilidade para o dia a dia.</p>
+      <p>Equipada com motor silencioso e bateria de longa duração, a SmartBike garante autonomia para percursos mais longos sem comprometer o conforto. Seu painel digital permite monitorar velocidade, distância e nível de carga.</p>
+      <p>Ideal para quem busca reduzir o impacto ambiental e otimizar o tempo de deslocamento, a SmartBike é a escolha perfeita para cidades inteligentes.</p>
+    </section>
+
+   
+    <section>
+      <h2>Especificações Técnicas</h2>
+      <table style="border: 1px solid black;">
+        <tr style="border: 1px solid black;">
+          <th style="border: 1px solid black;">Característica</th>
+          <th style="border: 1px solid black;">Detalhes</th>
+        </tr>
+        <tr style="border: 1px solid black;">
+          <td style="border: 1px solid black;">Autonomia</td>
+          <td style="border: 1px solid black;">Até 80 km</td>
+        </tr>
+        <tr style="border: 1px solid black;">
+          <td style="border: 1px solid black;">Tempo de Recarga</td>
+          <td style="border: 1px solid black;">4 horas</td>
+        </tr>
+        <tr style="border: 1px solid black;">
+          <td style="border: 1px solid black;">Peso</td>
+          <td style="border: 1px solid black;">18 kg</td>
+        </tr>
+        <tr style="border: 1px solid black;">
+          <td style="border: 1px solid black;">Material</td>
+          <td style="border: 1px solid black;">Alumínio reforçado</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="reviews">
+      <h2>Avaliações de Clientes</h2>
+      <article>
+        <h3>Maria Oliveira</h3>
+        <p>"A SmartBike mudou minha rotina! Agora consigo ir ao trabalho sem me preocupar com trânsito."</p>
+      </article>
+      <article>
+        <h3>João Santos</h3>
+        <p>"Excelente autonomia e muito confortável. Recomendo para quem busca praticidade."</p>
+      </article>
+      <article>
+        <h3>Ana Costa</h3>
+        <p>"Design incrível e fácil de usar. Vale cada centavo!"</p>
+      </article>
+    </section>
+
+    <section>
+      <h2>Adicionar ao Carrinho</h2>
+      <form>
+        <label for="quantidade">Quantidade:</label>
+        <input type="number" id="quantidade" name="quantidade" min="1" value="1">
+
+        <label>Cor:</label>
+        <div class="radio-group">
+          <label><input type="radio" name="cor" value="preta"> Preta</label>
+          <label><input type="radio" name="cor" value="branca"> Branca</label>
+          <label><input type="radio" name="cor" value="azul"> Azul</label>
+        </div>
+
+        <label for="tamanho">Tamanho:</label>
+        <select id="tamanho" name="tamanho">
+          <option value="p">P</option>
+          <option value="m">M</option>
+          <option value="g">G</option>
+        </select>
+
+        <button type="submit">Adicionar ao Carrinho</button>
+      </form>
+    </section>
+  </main>
+
+</body>
+</html>
