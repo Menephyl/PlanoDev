@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário de Contato</title>
+</head>
+<body>
+  <h2> Formulário de Contato</h2>
+
+  <form action="#" method="post" style="border: 2px solid #333; padding: 15px; width: 400px;">
+    
+ 
+    <fieldset style="margin-bottom: 15px;">
+      <legend>Dados Pessoais</legend>
+      
+      <label for="nome">Nome completo:</label><br>
+      <input type="text" id="nome" name="nome" required style="width: 100%;"><br><br>
+      
+      <label for="email">Email:</label><br>
+      <input type="email" id="email" name="email" required style="width: 100%;"><br><br>
+      
+      <label for="telefone">Telefone:</label><br>
+      <input type="tel" id="telefone" name="telefone" style="width: 100%;"><br>
+    </fieldset>
+
+ 
+    <fieldset style="margin-bottom: 15px;">
+      <legend>Mensagem</legend>
+      
+      <label for="assunto">Assunto:</label><br>
+      <select id="assunto" name="assunto" style="width: 100%;">
+        <option value="duvida">Dúvida</option>
+        <option value="sugestao">Sugestão</option>
+        <option value="reclamacao">Reclamação</option>
+      </select><br><br>
+      
+      <label for="mensagem">Mensagem:</label><br>
+      <textarea id="mensagem" name="mensagem" rows="5" style="width: 100%;"></textarea>
+    </fieldset>
+
+    <fieldset style="margin-bottom: 15px;">
+      <legend>Informações adicionais</legend>
+      
+      <p>Como conheceu o site?</p>
+      <input type="radio" id="busca" name="origem" value="busca">
+      <label for="busca">Busca</label><br>
+      
+      <input type="radio" id="redes" name="origem" value="redes">
+      <label for="redes">Redes Sociais</label><br>
+      
+      <input type="radio" id="indicacao" name="origem" value="indicacao">
+      <label for="indicacao">Indicação</label><br><br>
+      
+      <input type="checkbox" id="newsletter" name="newsletter" value="sim">
+      <label for="newsletter">Deseja receber nossa newsletter?</label>
+    </fieldset>
+
+  
+    <input type="submit" value="Enviar" style="padding: 5px 10px; margin-right: 10px;">
+    <input type="reset" value="Limpar" style="padding: 5px 10px;">
+  </form>
+</body>
+</html>
