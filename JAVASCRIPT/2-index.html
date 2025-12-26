@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #numeroContador {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        button {
+            font-size: 24px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="numeroContador">0</h1>
+    <button id="btnAumentar">Aumentar</button>
+    <button id="btnDiminuir">Diminuir</button>
+</body>
+<script>
+    const numeroContador = document.getElementById('numeroContador')
+    const btnAumentar = document.getElementById('btnAumentar')
+    const btnDiminuir = document.getElementById('btnDiminuir')
+
+    let contar = 0 
+
+    btnAumentar.addEventListener('click', function(){
+        contar++
+        numeroContador.textContent = contar 
+        atualizarNumero()
+    })
+    btnDiminuir.addEventListener('click',function(){
+        contar-- 
+          numeroContador.textContent = contar 
+        atualizarNumero()
+    })
+</script>
+</html>

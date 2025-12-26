@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario </title>
+</head>
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        margin: 50px;
+    }
+    .feedback{font-weight: bold;
+    margin-top: 10px;
+    }
+    .fraca{
+        color: red;
+    }
+    .boa{
+        color: orange;
+    }
+    .forte{
+        color: green;
+    }
+</style>
+<body>
+    <h3>Formulário de Avaliação</h3>
+    <input type="password" id="senha" placeholder="digite sua senha">
+    <div id="mensagem" class="feedback">
+
+    </div>
+</body>
+<script>
+    const campoSenha = document.getElementById('senha')
+    const areaMensagem = document.getElementById('mensagem')
+    campoSenha.addEventListener('input',()=>{
+        const senha = campoSenha.value
+        const temLetras = /[a-zA-Z]/.test(senha)
+        const temNumeros = /[0-9]/.test(senha)
+        const tamanhoOk = senha.length >=8
+        const temCaracteres = /[!@#$%^&*]/.test(senha)
+
+        if(senha.length ===0){
+            areaMensagem.textContent = ''
+        }else if(tamanhoOk && temLetras && temNumeros && temCaracteres){
+            areaMensagem.textContent = 'Senha forte: Comprimento, diversidade e caracteres especiais OK!'
+            areaMensagem.className = 'feedback forte'
+        }else if (tamanhoOk || (temLetras &&temNumeros)){
+            areaMensagem.textContent = 'Senha Média: Tente adicionar mais caracteres ou letras e numeros .'
+            areaMensagem.className ='feedback boa'
+        }else{
+            areaMensagem.textContent = 'Senha Fraca: Tente adicionar mais caracteres, letras e numeros.'
+            areaMensagem.className = 'feedback fraca'
+        }
+    })
+</script>
+</html>

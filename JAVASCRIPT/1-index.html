@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exercicio 1 </title>
+</head>
+<style>
+    #cores {
+        width: 200px;
+        height: 100px;
+        background-color: lightblue;
+        text-align: center;
+        line-height: 100px;
+        cursor: pointer;
+        user-select: none;
+        font-family: Arial, sans-serif;
+        font-size: 18px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+        border: 1px solid black;
+    }
+
+    #cores:hover {
+        background-color: deepskyblue;
+    }
+</style>
+
+<body>
+    <title>Trocador de cores</title>
+
+    <div id="cores">
+        Clique 
+    </div>
+</body>
+<script>
+let myBtn = document.querySelector('#cores')
+ function gerarCorAleatoria(){
+    
+        const letraHex ='0123456789ABCDEF'
+        let cores= '#'
+        for (let i = 0; i< 6 ; i++){
+            cores += letraHex[Math.floor(Math.random()*16)]
+        }
+        return cores
+
+    
+ }
+ myBtn.addEventListener('click', function(){
+    document.body.style.backgroundColor=gerarCorAleatoria()
+ })
+</script>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>to do list</title>
+</head>
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        margin: 50px;
+        padding: 20px;
+    }
+    .item-lista{
+        display: flex;
+        justify-content: space-between;
+        width: 250px;
+        margin-bottom: 5px;
+        padding: 5px;
+        border-bottom: 1px solid #ccc;
+    }
+    .btn-remover{
+        color: red;
+        cursor: pointer;
+        border: none;
+        background: none;
+    }
+</style>
+<body>
+    <h3>
+        To Do List
+    </h3>
+    <input type="text" id="inputTarefa" placeholder="O que tenho que fazer hoje?">
+    <button id="btnAdicionar">Adicionar</button>
+    <ul id="listaTarefas">
+
+    </ul>
+    <script>
+    const input = document.getElementById('inputTarefa')
+    const botaoAdicionar = document.getElementById('btnAdicionar')
+    const listaUl = document.getElementById('listaTarefas')
+    botaoAdicionar.addEventListener('click',()=> {
+        const textoTarefa = input.value
+        if(textoTarefa.trim()===''){
+            alert('Por favor, digite uma tarefa válida.')
+            return
+        }
+        const novoItem = document.createElement('li')
+        novoItem.textContent = textoTarefa
+        novoItem.className = 'item-lista'
+
+        novoItem.innerHTML =`
+        <span>${textoTarefa}</span>
+        <button class ="btn-remover">Remover</button>
+        `
+
+        const botaoRemover = novoItem.querySelector('.btn-remover')
+        botaoRemover.addEventListener('click',()=>{
+            novoItem.remove()
+        })
+        listaUl.appendChild(novoItem)
+        input.value = ""
+        input.focus()
+    })
+</script>
+</body>
+
+</html>

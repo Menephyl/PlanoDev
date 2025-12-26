@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    const produtos = [
+        { nome: 'Notebook', preco: 2500, categoria: 'Eletrônicos' },
+        { nome: 'Livro', preco: 50, categoria: 'Livraria' },
+        { nome: 'Smartphone', preco: 1500, categoria: 'Eletrônicos' },
+        { nome: 'Cadeira Gamer', preco: 950, categoria: 'Móveis' },
+        { nome: 'Caneca', preco: 30, categoria: 'Cozinha' }
+    ]
+    const produtosCaros = produtos.filter(produto => produto.preco > 1000)
+    .map(produto => produto.nome)
+    console.log(produtosCaros)
+</script>
+
+</html>
