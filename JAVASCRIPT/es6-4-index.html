@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>personagem rpg </title>
+</head>
+<style>
+    body {
+        background: #1a1a1a;
+        color: white;
+        font-family: 'Georgia', serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .arena {
+        display: flex;
+        gap: 50px;
+        margin-top: 50px;
+    }
+
+    .card {
+        background: #2a2a2a;
+        border: 2px solid #cd9d1b;
+        padding: 20px;
+        border-radius: 10px;
+        width: 250px;
+        text-align: center;
+    }
+
+    .vida-bar-container {
+        background: #555;
+        height: 20px;
+        width: 100%;
+        border-radius: 10px;
+        margin: 10px 0;
+        overflow: hidden;
+    }
+
+    .vida-bar {
+        background: #c41e3a;
+        height: 100%;
+        width: 100%;
+        transition: width 0.3s ease;
+    }
+
+    .controles {
+        margin-top: 30px;
+    }
+
+    button {
+        padding: 10px 20px;
+        cursor: pointer;
+        background: #cd9d1b;
+        border: none;
+        font-weight: bold;
+    }
+
+    .log {
+        margin-top: 20px;
+        color: #aaa;
+        font-style: italic;
+    }
+</style>
+
+<body>
+    <h1>
+        Azeroth Duelo Js
+    </h1>
+    <div class="arena">
+        <div class="card" id="p1">
+            <h2 id="p1-nome">Uther</h2>
+            <img id="p1-img" src="paladin-uther.gif" style="width: 100%; height: 45%; border-radius: 5px;">
+            <p id="idp1-clase">Paladino</p>
+
+            <div class="vida-bar-container">
+                <div id="p1-vida" class="vida-bar">
+
+                </div>
+            </div>
+            <p>Vida: <span id="p1-vida-texto">100</span>%</p>
+        </div>
+        <div class="card" id="p2">
+            <h2 id="p2-nome">Garrosh</h2>
+            <img id="p2-img" src="grom-hellscream-warcraft3.webp" style="width: 100%; border-radius: 5px;">
+            <p id="p2-clase">Guerreiro</p>
+            <div class="vida-bar-container">
+                <div id="p2-vida" class="vida-bar">
+
+                </div>
+            </div>
+            <p>Vida: <span id="p2-vida-texto">100</span>%</p>
+        </div>
+    </div>
+
+
+    <div class="controles">
+        <button onclick="ataqueDoHeroi()">Uther Ataca!</button>
+        <button onclick="ataqueDoVilao()">Garrosh Ataca!</button>
+    </div>
+
+    <div class="log" id="log-combate">Aguardando o inicio do duelo...</div>
+</body>
+<script>
+    class Personagem {
+        constructor(nome, raca, classe, forca, elementId, imgMorte) {
+            this.nome = nome
+            this.classe = classe
+            this.forca = forca
+            this.vida = 100
+            this.nivel = 1
+            this.elementId = elementId
+            this.imgMorte = imgMorte
+        }
+        atacar(alvo) {
+            console.log(`[COMBATE]:${this.nome}(${this.classe}) usa uma habilidade em ${alvo.nome}!`)
+
+
+            if (this.vida <= 0) {
+                alvo.vida = 0
+                console.log(`💀 ${alvo.nome} foi derrotado por  ${this.nome}!`)
+                atualizarLog(`${this.nome} foi derrotado por  ${this.nome}!`)
+                return
+                alvo.atualizarInterface()
+            }
+
+            alvo.vida -= this.forca
+            if (alvo.vida < 0) alvo.vida = 0
+            atualizarLog(`⚔️ ${this.nome} atacou ${alvo.nome} causando ${this.forca} de dano!`);
+            alvo.atualizarInterface()
+        }
+        atualizarInterface() {
+            const barraVida = document.getElementById(`${this.elementId}-vida`)
+            const textoVida = document.getElementById(`${this.elementId}-vida-texto`)
+            const imagemPersona = document.getElementById(`${this.elementId}-img`);
+            barraVida.style.width = `${this.vida}%`
+            textoVida.innerText = `${this.vida}`
+
+            if (this.vida <= 0) {
+                document.getElementById(this.elementId).style.filter = "grayscale(100%)"
+                imagemPersona.src = this.imgMorte;
+                document.getElementById(this.elementId).style.filter = "sepia(100%)";
+                atualizarLog(`💀 ${this.nome} foi derrotado!`)
+            }
+        }
+    }
+    let heroi = new Personagem("Uther", "Humano", "Paladino", 20, "p1", "paladin-dying.gif")
+    let vilao = new Personagem("Garrosh", "Orc", "Guerreiro", 25, "p2", "grom-hellscream-warcraft3-dying.gif")
+    const ataqueDoHeroi = () => heroi.atacar(vilao)
+    const ataqueDoVilao = () => vilao.atacar(heroi)
+
+    const atualizarLog = (mensagem) => {
+        const logElemento = document.getElementById("log-combate")
+        logElemento.innerText = mensagem
+    }
+</script>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refatorar para arrow functions</title>
+</head>
+
+<body>
+    <div>
+        <code>
+            <pre>
+                // Código antigo
+const numeros = [1, 2, 3, 4, 5];
+
+const pares = numeros.filter(function(num) {
+    return num % 2 === 0;
+});
+
+const dobrados = numeros.map(function(num) {
+    return num * 2;
+});
+            </pre>
+        </code>
+    </div>
+</body>
+<script>
+    const  num = [1,2,3,4,5]
+    const pares = num.filter( (num)=>(num %2 ===0))
+    console.log(pares)
+    const dobrados =num.map(num => num*2)
+    console.log(dobrados)
+</script>
+</html>
