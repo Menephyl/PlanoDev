@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Board de Prospecção</title>
+    <style>
+        :root{--bg:#f7f7f9;--col:#fff;--accent:#2b6cb0}
+        body{font-family:Arial,Helvetica,sans-serif;margin:16px;background:var(--bg)}
+        h1{margin:0 0 12px}
+        .toolbar{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+        input,select,button,textarea{font:inherit}
+        form.add{display:flex;gap:8px;flex-wrap:wrap}
+        form.add input[type=text]{padding:6px 8px;width:180px}
+        form.add select{padding:6px 8px}
+        form.add button{padding:6px 10px}
+        .board{display:flex;gap:12px;align-items:flex-start}
+        .column{background:var(--col);padding:8px;border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,.06);width:240px;min-height:200px}
+        .column h3{margin:0 0 8px;font-size:14px}
+        .col-body{min-height:120px}
+        .card{background:#fff;border:1px solid #e6e6e6;padding:8px;border-radius:4px;margin-bottom:8px;cursor:grab}
+        .card .meta{font-size:12px;color:#444}
+        .card .type{font-weight:600;color:var(--accent)}
+        .card .actions{margin-top:6px}
+        .card button{margin-right:6px;padding:4px 6px}
+        .muted{color:#666;font-size:13px}
+        .controls{margin-left:auto}
+    </style>
+</head>
+<body>
+    <h1>Board de Prospecção — Sites & Agentes de IA</h1>
+    <div class="toolbar">
+        <form id="addForm" class="add" onsubmit="return false">
+            <input type="text" id="codigo" placeholder="Código" required>
+            <input type="text" id="empresa" placeholder="Loja / Empresa / Pessoa" required>
+            <select id="tipo">
+                <option value="Site">Site</option>
+                <option value="Agente IA">Agente IA</option>
+                <option value="Outro">Outro</option>
+            </select>
+            <input type="text" id="valor" placeholder="Valor (R$)">
+            <button id="addBtn">Adicionar</button>
+        </form>
+        <div class="controls">
+            <button id="exportCsv">Exportar CSV</button>
+            <button id="clearBoard">Limpar board</button>
+        </div>
+    </div>
+
+    <div class="board" id="board">
+        <div class="column" data-col="leads">
+            <h3>Leads</h3>
+            <div class="col-body" ondragover="event.preventDefault()" data-target="leads"></div>
+        </div>
+        <div class="column" data-col="contacted">
+            <h3>Contactados</h3>
+            <div class="col-body" ondragover="event.preventDefault()" data-target="contacted"></div>
+        </div>
+        <div class="column" data-col="proposal">
+            <h3>Proposta Enviada</h3>
+            <div class="col-body" ondragover="event.preventDefault()" data-target="proposal"></div>
+        </div>
+        <div class="column" data-col="negotiation">
+            <h3>Negociação</h3>
+            <div class="col-body" ondragover="event.preventDefault()" data-target="negotiation"></div>
+        </div>
+        <div class="column" data-col="closed">
+            <h3>Fechado</h3>
+            <div class="col-body" ondragover="event.preventDefault()" data-target="closed"></div>
+        </div>
+    </div>
+
+    <script>
+        const cols = ['leads','contacted','proposal','negotiation','closed'];
+        const storageKey = 'prospeccao_board_v1';
+
+        function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+
+        function load(){
+            const raw = localStorage.getItem(storageKey);
+            return raw ? JSON.parse(raw) : {leads:[],contacted:[],proposal:[],negotiation:[],closed:[]};
+        }
+
+        function save(state){localStorage.setItem(storageKey,JSON.stringify(state))}
+
+        function createCard(item){
+            const el = document.createElement('div');
+            el.className = 'card';
+            el.draggable = true;
+            el.dataset.id = item.id;
+            el.innerHTML = `<div class="meta"><strong>${escapeHtml(item.codigo)}</strong> — <span class="muted">${escapeHtml(item.empresa)}</span></div>
+                            <div class="meta">Tipo: <span class="type">${escapeHtml(item.tipo)}</span> | Valor: ${escapeHtml(item.valor||'')}</div>
+                            <div class="actions"><button data-action="edit">Editar</button><button data-action="del">Remover</button></div>`;
+            el.addEventListener('dragstart', e=> e.dataTransfer.setData('text/plain', item.id));
+            el.querySelector('[data-action="del"]').addEventListener('click', ()=> removeItem(item.id));
+            el.querySelector('[data-action="edit"]').addEventListener('click', ()=> editItem(item));
+            return el;
+        }
+
+        function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+        function render(){
+            const state = load();
+            cols.forEach(c=>{
+                const container = document.querySelector(`[data-target="${c}"]`);
+                container.innerHTML = '';
+                state[c].forEach(item=> container.appendChild(createCard(item)));
+                container.ondrop = e=>{
+                    e.preventDefault();
+                    const id = e.dataTransfer.getData('text/plain');
+                    moveItemTo(id, c);
+                };
+            });
+        }
+
+        function addItem(data, column='leads'){
+            const state = load();
+            state[column].push(data);
+            save(state); render();
+        }
+
+        function removeItem(id){
+            const state = load();
+            cols.forEach(c=> state[c] = state[c].filter(i=>i.id!==id));
+            save(state); render();
+        }
+
+        function moveItemTo(id, column){
+            const state = load();
+            let item = null;
+            cols.forEach(c=>{
+                const idx = state[c].findIndex(i=>i.id===id);
+                if(idx>-1) item = state[c].splice(idx,1)[0];
+            });
+            if(item) state[column].push(item);
+            save(state); render();
+        }
+
+        function editItem(item){
+            const codigo = prompt('Código:', item.codigo);
+            if(codigo==null) return;
+            const empresa = prompt('Loja/Empresa/Pessoa:', item.empresa);
+            if(empresa==null) return;
+            const tipo = prompt('Tipo (Site / Agente IA / Outro):', item.tipo);
+            if(tipo==null) return;
+            const valor = prompt('Valor (R$):', item.valor||'');
+            if(valor==null) return;
+            const state = load();
+            cols.forEach(c=>{
+                const idx = state[c].findIndex(i=>i.id===item.id);
+                if(idx>-1) state[c][idx] = {...state[c][idx], codigo, empresa, tipo, valor};
+            });
+            save(state); render();
+        }
+
+        document.getElementById('addBtn').addEventListener('click', ()=>{
+            const codigo = document.getElementById('codigo').value.trim();
+            const empresa = document.getElementById('empresa').value.trim();
+            const tipo = document.getElementById('tipo').value;
+            const valor = document.getElementById('valor').value.trim();
+            if(!codigo || !empresa) return alert('Preencha Código e Empresa.');
+            addItem({id:uid(), codigo, empresa, tipo, valor}, 'leads');
+            document.getElementById('addForm').reset();
+        });
+
+        document.getElementById('clearBoard').addEventListener('click', ()=>{
+            if(confirm('Limpar todo o board? Essa ação não pode ser desfeita.')){
+                localStorage.removeItem(storageKey); render();
+            }
+        });
+
+        document.getElementById('exportCsv').addEventListener('click', ()=>{
+            const state = load();
+            const rows = [['coluna','codigo','empresa','tipo','valor']];
+            cols.forEach(c=> state[c].forEach(i=> rows.push([c,i.codigo,i.empresa,i.tipo,i.valor||''])));
+            const csv = rows.map(r=> r.map(v=> '"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+            const blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'board_prospeccao.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+        });
+
+        render();
+    </script>
+</body>
+</html>
